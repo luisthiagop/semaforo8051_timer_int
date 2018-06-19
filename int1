@@ -1,0 +1,36 @@
+; ----- vetor da reset -------
+org	0000h			;origem no endereço 0000h
+ajmp	inicio		;pula a parte das interrupções
+
+; ----- Rotina de interrupção INT0 -----
+org	0013h			;endereço da interrupção INT0
+cpl	a 				;complementa o acumulador
+mov	P0,a 			;move o conteudo do acumulador pro port0
+
+reti					;retorna da interrupção
+
+; ----- Fim das rotinas de interrupção -----
+
+
+; ----- início -----
+inicio: 
+	mov 		a,#00h 		;move 00h para o acumulador
+	mov 		P0,a 			;configura PORT0 como saída
+	mov 		a, #0ffh		;cove FFh para acc
+	mov 		P0,a 			;inicializa  o port0
+	mov 		a,#10000001b;move a constante para acc
+	mov 		ie,a 			;habilita a interrupção INT0
+	mov 		a,#00000000b;move a constante para acc
+	mov 		ip,a 			;define int0 como baixa prioridade
+	mov 		a,#00000001b;move a constante para acc
+	mov 		tcon,a 		;define int0 como sensivel a borda
+	mov 		a,#3ch		;move a constante para o acumulador
+
+
+	ajmp 		$				;loop inifinito
+
+
+
+	end 						;fim do programa
+
+
